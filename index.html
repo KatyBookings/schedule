@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>&#127955; Pickleball Snapshot &mdash; 2026-03-09 13:34:14</title>
+<title>&#127955; Pickleball Court Booking Status &mdash; 2026-03-09 13:41:47</title>
 <style>
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
   body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
@@ -85,15 +85,23 @@
 
   /* ── Calendar ── */
   .cal-wrap { overflow-x: auto; -webkit-overflow-scrolling: touch;
-               margin-bottom: 24px; border-radius: 4px; }
+               margin-bottom: 24px; }
+
+  /* Desktop / tablet: 7-column grid */
   .cal { display: grid; grid-template-columns: repeat(7,1fr); gap: 5px;
-          min-width: 380px; }
+          min-width: 420px; }
   .cal-hdr { text-align: center; font-size: 0.65rem; font-weight: 700;
               color: #6b7280; padding: 3px 0; }
-  .cal-cell { border-radius: 9px; padding: 7px 5px; min-height: 76px;
-               text-align: center; font-size: 0.7rem; }
+  .cal-blank { /* padding spacer cells */ }
+
+  .cal-cell { border-radius: 9px; padding: 7px 5px; min-height: 80px;
+               text-align: center; font-size: 0.7rem;
+               display: flex; flex-direction: column; align-items: center; }
+  .cal-date-grp { display: flex; flex-direction: column; align-items: center; }
+  .cal-info-grp { display: flex; flex-direction: column; align-items: center; width: 100%; }
+
   .cal-cell .dn { font-size: 1rem; font-weight: 800; line-height: 1.2; }
-  .cal-cell .mo { font-size: 0.58rem; color: #6b7280; margin-bottom: 3px; }
+  .cal-cell .mo { font-size: 0.58rem; color: #6b7280; margin-bottom: 2px; }
   .booked   { background: #dcfce7; border: 2px solid #16a34a; }
   .booked .dn { color: #15803d; }
   .open     { background: #fee2e2; border: 2px solid #ef4444; }
@@ -103,7 +111,8 @@
   .cal-time  { font-size: 0.64rem; color: #166534; font-weight: 700; margin-top: 3px; }
   .cal-dur   { font-size: 0.58rem; color: #374151; }
   .cal-court { font-size: 0.55rem; color: #4b5563; margin-top: 2px;
-                white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+                white-space: nowrap; overflow: hidden; text-overflow: ellipsis;
+                max-width: 100%; }
   .cal-src   { font-size: 0.52rem; color: #9ca3af; }
   .open-lbl  { font-size: 0.6rem; color: #ef4444; margin-top: 4px; }
 
@@ -170,7 +179,35 @@
     .stat .label { font-size: 0.6rem; }
 
     h2 { font-size: 0.85rem; margin-bottom: 8px; }
-    .cal-wrap { margin-bottom: 16px; }
+
+    /* ── Calendar: switch to vertical list on mobile ── */
+    .cal-wrap { overflow-x: unset; margin-bottom: 16px; }
+    .cal {
+      display: flex; flex-direction: column; gap: 4px; min-width: unset;
+    }
+    .cal-hdr  { display: none; }   /* hide Mon/Tue/... headers */
+    .cal-blank { display: none; }  /* hide padding spacers */
+    .cal-cell {
+      flex-direction: row; align-items: center;
+      min-height: unset; padding: 8px 12px;
+      border-radius: 10px; text-align: left; gap: 10px;
+    }
+    .cal-date-grp {
+      flex-direction: row; align-items: baseline;
+      gap: 5px; min-width: 56px; flex-shrink: 0;
+    }
+    .cal-cell .mo { font-size: 0.7rem; color: #6b7280; margin-bottom: 0; }
+    .cal-cell .dn { font-size: 0.95rem; }
+    .cal-info-grp {
+      flex-direction: row; align-items: center; flex-wrap: wrap;
+      gap: 4px; width: auto; flex: 1;
+    }
+    .cal-time  { font-size: 0.72rem; margin-top: 0; font-weight: 700; }
+    .cal-dur   { font-size: 0.68rem; }
+    .cal-court { font-size: 0.65rem; white-space: normal; max-width: none;
+                  width: 100%; margin-top: 0; }
+    .cal-src   { font-size: 0.6rem; }
+    .open-lbl  { font-size: 0.68rem; margin-top: 0; }
 
     .card { flex-direction: column; gap: 8px; padding: 11px 13px; }
     .card .date-col {
@@ -198,18 +235,18 @@
 
 <header>
   <span style="font-size:1.6rem">&#127955;</span>
-  <h1>Pickleball Court Snapshot</h1>
+  <h1>Pickleball Court Booking Status</h1>
   <div class="hdr-right">
-    <span class="snap-label">Generated 2026-03-09 13:34:14 CST</span>
+    <span class="snap-label">Generated 2026-03-09 13:41:47 CST</span>
   </div>
 </header>
 
 <!-- ── Filter bar ── -->
 <div class="filter-bar">
   <span class="fb-label">Show:</span>
-  <button class="fb-btn" id="btn-today"    onclick="applyFilter('today')">&#128197; Today</button>
-  <button class="fb-btn" id="btn-week"     onclick="applyFilter('week')">&#128198; This Week</button>
-  <button class="fb-btn active" id="btn-14" onclick="applyFilter('14days')">&#9200; Next 14 Days</button>
+  <button class="fb-btn active" id="btn-today" onclick="applyFilter('today')">&#128197; Today</button>
+  <button class="fb-btn" id="btn-week"         onclick="applyFilter('week')">&#128198; This Week</button>
+  <button class="fb-btn" id="btn-14"           onclick="applyFilter('14days')">&#9200; Next 14 Days</button>
 </div>
 
 <!-- ── Quick-view panel ── -->
@@ -249,94 +286,21 @@
 <div class="cal-hdr">Fri</div>
 <div class="cal-hdr">Sat</div>
 <div class="cal-hdr">Sun</div>
-<div></div>
-<div class="cal-cell booked today-ring"><div class="mo">Mar</div>
-<div class="dn">10</div>
-<div class="cal-time">7:30 PM</div>
-<div class="cal-dur">90 min</div>
-<div class="cal-court">RW PB#1</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell open "><div class="mo">Mar</div>
-<div class="dn">11</div>
-<div class="open-lbl">open</div>
-</div>
-<div class="cal-cell open "><div class="mo">Mar</div>
-<div class="dn">12</div>
-<div class="open-lbl">open</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">13</div>
-<div class="cal-time">6:00 PM</div>
-<div class="cal-dur">90 min</div>
-<div class="cal-court">RS PB#1</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">14</div>
-<div class="cal-time">6:30 PM</div>
-<div class="cal-dur">90 min</div>
-<div class="cal-court">RW PB# 1</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell open "><div class="mo">Mar</div>
-<div class="dn">15</div>
-<div class="open-lbl">open</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">16</div>
-<div class="cal-time">9:30 PM</div>
-<div class="cal-dur">60 min</div>
-<div class="cal-court">RS PB#2</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell open "><div class="mo">Mar</div>
-<div class="dn">17</div>
-<div class="open-lbl">open</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">18</div>
-<div class="cal-time">7:30 PM</div>
-<div class="cal-dur">90 min</div>
-<div class="cal-court">RW PB#1</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">19</div>
-<div class="cal-time">6:30 PM</div>
-<div class="cal-dur">60 min</div>
-<div class="cal-court">RS PB#1</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">20</div>
-<div class="cal-time">5:00 PM</div>
-<div class="cal-dur">60 min</div>
-<div class="cal-court">RS PB#1</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell open "><div class="mo">Mar</div>
-<div class="dn">21</div>
-<div class="open-lbl">open</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">22</div>
-<div class="cal-time">6:30 PM</div>
-<div class="cal-dur">90 min</div>
-<div class="cal-court">RW PB# 2</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell booked "><div class="mo">Mar</div>
-<div class="dn">23</div>
-<div class="cal-time">8:30 PM</div>
-<div class="cal-dur">90 min</div>
-<div class="cal-court">RS PB#2</div>
-<div class="cal-src">synced</div>
-</div>
-<div class="cal-cell open "><div class="mo">Mar</div>
-<div class="dn">24</div>
-<div class="open-lbl">open</div>
-</div>
+<div class="cal-cell open today-ring"><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">9</div></div><div class="cal-info-grp"><div class="open-lbl">open</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">10</div></div><div class="cal-info-grp"><div class="cal-time">7:30 PM</div><div class="cal-dur">90 min</div><div class="cal-court">RW PB#1</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell open "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">11</div></div><div class="cal-info-grp"><div class="open-lbl">open</div></div></div>
+<div class="cal-cell open "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">12</div></div><div class="cal-info-grp"><div class="open-lbl">open</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">13</div></div><div class="cal-info-grp"><div class="cal-time">6:00 PM</div><div class="cal-dur">90 min</div><div class="cal-court">RS PB#1</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">14</div></div><div class="cal-info-grp"><div class="cal-time">6:30 PM</div><div class="cal-dur">90 min</div><div class="cal-court">RW PB# 1</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell open "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">15</div></div><div class="cal-info-grp"><div class="open-lbl">open</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">16</div></div><div class="cal-info-grp"><div class="cal-time">9:30 PM</div><div class="cal-dur">60 min</div><div class="cal-court">RS PB#2</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell open "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">17</div></div><div class="cal-info-grp"><div class="open-lbl">open</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">18</div></div><div class="cal-info-grp"><div class="cal-time">7:30 PM</div><div class="cal-dur">90 min</div><div class="cal-court">RW PB#1</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">19</div></div><div class="cal-info-grp"><div class="cal-time">6:30 PM</div><div class="cal-dur">60 min</div><div class="cal-court">RS PB#1</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">20</div></div><div class="cal-info-grp"><div class="cal-time">5:00 PM</div><div class="cal-dur">60 min</div><div class="cal-court">RS PB#1</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell open "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">21</div></div><div class="cal-info-grp"><div class="open-lbl">open</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">22</div></div><div class="cal-info-grp"><div class="cal-time">6:30 PM</div><div class="cal-dur">90 min</div><div class="cal-court">RW PB# 2</div><div class="cal-src">synced</div></div></div>
+<div class="cal-cell booked "><div class="cal-date-grp"><div class="mo">Mar</div><div class="dn">23</div></div><div class="cal-info-grp"><div class="cal-time">8:30 PM</div><div class="cal-dur">90 min</div><div class="cal-court">RS PB#2</div><div class="cal-src">synced</div></div></div>
 
   </div></div>
 
@@ -469,13 +433,13 @@
   </div></div>
 
 </div>
-<footer>Pickleball Snapshot &middot; 2026-03-09 13:34:14 CST</footer>
+<footer>Pickleball Court Booking Status &middot; 2026-03-09 13:41:47 CST</footer>
 
 <script>
 const BOOKINGS   = [{"date": "2026-03-10", "start_time": "7:30 PM", "end_time": "9:00 PM", "duration_min": 90, "court": "Rollingwood PB Court #1 (Tennis Courts)", "short_court": "RW PB#1", "source": "synced", "reservation_id": ""}, {"date": "2026-03-13", "start_time": "6:00 PM", "end_time": "7:30 PM", "duration_min": 90, "court": "Rosewood PB Court #1", "short_court": "RS PB#1", "source": "synced", "reservation_id": ""}, {"date": "2026-03-14", "start_time": "6:30 PM", "end_time": "8:00 PM", "duration_min": 90, "court": "Rollingwood Pickleball Court# 1", "short_court": "RW PB# 1", "source": "synced", "reservation_id": ""}, {"date": "2026-03-16", "start_time": "9:30 PM", "end_time": "10:30 PM", "duration_min": 60, "court": "Rosewood PB Court #2", "short_court": "RS PB#2", "source": "synced", "reservation_id": ""}, {"date": "2026-03-18", "start_time": "7:30 PM", "end_time": "9:00 PM", "duration_min": 90, "court": "Rollingwood PB Court #1 (Tennis Courts)", "short_court": "RW PB#1", "source": "synced", "reservation_id": ""}, {"date": "2026-03-19", "start_time": "6:30 PM", "end_time": "7:30 PM", "duration_min": 60, "court": "Rosewood PB Court #1", "short_court": "RS PB#1", "source": "synced", "reservation_id": ""}, {"date": "2026-03-20", "start_time": "5:00 PM", "end_time": "6:00 PM", "duration_min": 60, "court": "Rosewood PB Court #1", "short_court": "RS PB#1", "source": "synced", "reservation_id": ""}, {"date": "2026-03-22", "start_time": "6:30 PM", "end_time": "8:00 PM", "duration_min": 90, "court": "Rollingwood Pickleball Court# 2", "short_court": "RW PB# 2", "source": "synced", "reservation_id": ""}, {"date": "2026-03-23", "start_time": "8:30 PM", "end_time": "10:00 PM", "duration_min": 90, "court": "Rosewood PB Court #2", "short_court": "RS PB#2", "source": "synced", "reservation_id": ""}];
-const TODAY      = "2026-03-10";
+const TODAY      = "2026-03-09";
 const WEEK_END   = "2026-03-15";
-const FOURTEEN   = "2026-03-24";
+const FOURTEEN   = "2026-03-23";
 
 const BADGE_MAP = {
   gaps:        '<span class="badge b-amber">gap-fill</span>',
@@ -542,8 +506,8 @@ function applyFilter(key) {
   }
 }
 
-// Initialise with Next 14 Days on load
-applyFilter('14days');
+// Initialise with Today on load
+applyFilter('today');
 </script>
 
 </body>
