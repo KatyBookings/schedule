@@ -1,0 +1,4 @@
+# Only track HTML snapshots
+*
+!*.html
+!.gitignore
