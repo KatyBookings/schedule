@@ -1,5 +1,5 @@
 {
- "generated_at": "2026-10-02T08:01:45-05:00",
+ "generated_at": "2026-10-03T08:00:19-05:00",
  "timezone": "America/Chicago",
  "bookings": [
   {
@@ -144,6 +144,14 @@
    "end_time": "8:30 PM",
    "duration_min": 90,
    "court": "Rollingwood Pickleball Court# 4",
+   "is_ai": true
+  },
+  {
+   "date": "2026-10-17",
+   "start_time": "7:00 PM",
+   "end_time": "8:30 PM",
+   "duration_min": 90,
+   "court": "Rollingwood Pickleball Court# 1",
    "is_ai": true
   }
  ]
