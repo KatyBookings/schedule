@@ -1,23 +1,7 @@
 {
- "generated_at": "2026-11-13T08:00:10-06:00",
+ "generated_at": "2026-11-14T08:00:10-06:00",
  "timezone": "America/Chicago",
  "bookings": [
-  {
-   "date": "2026-11-13",
-   "start_time": "6:00 PM",
-   "end_time": "7:00 PM",
-   "duration_min": 60,
-   "court": "Rollingwood Pickleball Court# 2",
-   "is_ai": true
-  },
-  {
-   "date": "2026-11-13",
-   "start_time": "7:00 PM",
-   "end_time": "8:00 PM",
-   "duration_min": 60,
-   "court": "Rollingwood Pickleball Court# 2",
-   "is_ai": true
-  },
   {
    "date": "2026-11-14",
    "start_time": "6:00 PM",
@@ -31,8 +15,8 @@
    "start_time": "7:00 PM",
    "end_time": "8:00 PM",
    "duration_min": 60,
-   "court": "Rollingwood PB Court #2 (Tennis Courts)",
-   "is_ai": true
+   "court": "Rollingwood Pickleball Court# 1",
+   "is_ai": false
   },
   {
    "date": "2026-11-15",
@@ -228,6 +212,22 @@
   },
   {
    "date": "2026-11-27",
+   "start_time": "7:00 PM",
+   "end_time": "8:00 PM",
+   "duration_min": 60,
+   "court": "Rollingwood Pickleball Court# 2",
+   "is_ai": true
+  },
+  {
+   "date": "2026-11-28",
+   "start_time": "6:00 PM",
+   "end_time": "7:00 PM",
+   "duration_min": 60,
+   "court": "Rollingwood Pickleball Court# 2",
+   "is_ai": true
+  },
+  {
+   "date": "2026-11-28",
    "start_time": "7:00 PM",
    "end_time": "8:00 PM",
    "duration_min": 60,
